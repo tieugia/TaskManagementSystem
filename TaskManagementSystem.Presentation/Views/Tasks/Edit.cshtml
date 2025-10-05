@@ -1,0 +1,87 @@
+﻿@model TaskManagementSystem.Presentation.Models.TaskUpdateViewModel
+@{
+    ViewData["Title"] = "Edit Task";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">
+                        <i class="bi bi-pencil-square"></i> Edit Task
+                    </h4>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-light btn-sm">
+                            <i class="bi bi-eye"></i> Details
+                        </a>
+                        <a asp-action="Index" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+
+                        <!-- Hidden keys for update & concurrency -->
+                        <input asp-for="Id" type="hidden" />
+                        <input asp-for="RowVersion" type="hidden" />
+
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-semibold"></label>
+                            <input asp-for="Title" class="form-control" placeholder="Enter task title..." />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-semibold"></label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Update description (optional)..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="DueDate" class="form-label fw-semibold"></label>
+                                <input asp-for="DueDate" type="datetime-local" class="form-control" />
+                                <span asp-validation-for="DueDate" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Priority" class="form-label fw-semibold"></label>
+                                <select asp-for="Priority"
+                                        asp-items="Html.GetEnumSelectList<TaskPriority>()"
+                                        class="form-select">
+                                </select>
+                                <span asp-validation-for="Priority" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-check form-switch mt-3">
+                            <input class="form-check-input" type="checkbox" asp-for="IsCompleted" id="completedSwitch">
+                            <label class="form-check-label" for="completedSwitch">Completed</label>
+                            <span asp-validation-for="IsCompleted" class="text-danger small d-block"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer bg-light small text-muted">
+                    <span class="me-3"><i class="bi bi-hash"></i> Id: @Model.Id</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

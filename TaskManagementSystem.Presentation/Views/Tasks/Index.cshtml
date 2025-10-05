@@ -1,0 +1,196 @@
+﻿@model IEnumerable<TaskManagementSystem.Application.DTOs.TaskDto>
+
+@{
+    ViewData["Title"] = "Tasks";
+
+    const int PageSize = 10;
+    var pagee = (int?)ViewBag.Page ?? 1;
+    var keyword = (string?)ViewBag.Query;
+    bool? done = ViewBag.IsDone as bool?;
+    var priority = ViewBag.Priority as TaskPriority?;
+
+    var dueFrom = Context.Request.Query["DueFromUtc"].ToString();
+    var dueTo = Context.Request.Query["DueToUtc"].ToString();
+
+    var items = Model?.ToList() ?? new List<TaskDto>();
+    var hasNext = items.Count == PageSize;
+}
+
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div class="d-flex align-items-center gap-2">
+        <h2 class="mb-0">Tasks</h2>
+        @if (!items.Any() && string.IsNullOrWhiteSpace(keyword) && done is null && priority is null && string.IsNullOrWhiteSpace(dueFrom) && string.IsNullOrWhiteSpace(dueTo))
+        {
+            <span class="text-muted small">— create your first task!</span>
+        }
+    </div>
+    <a class="btn btn-primary" href="@Url.Action("Create", "Tasks")">
+        <i class="bi bi-plus-lg"></i> New Task
+    </a>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="form-floating">
+            <input class="form-control" id="q" name="Keyword" value="@(keyword ?? "")" placeholder="Search..." />
+            <label for="q"><i class="bi bi-search"></i> Search (title/description)</label>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-2">
+        <div class="form-floating">
+            <select class="form-select" id="completed" name="IsCompleted">
+                <option value="" selected="@(done is null)">All</option>
+                <option value="false" selected="@(done == false)">Open</option>
+                <option value="true" selected="@(done == true)">Completed</option>
+            </select>
+            <label for="completed">Status</label>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-2">
+        <div class="form-floating">
+            <select class="form-select" id="priority" name="Priority">
+                <option value="" selected="@(priority is null)">Any</option>
+                @foreach (TaskPriority p in Enum.GetValues(typeof(TaskPriority)))
+                {
+                    <option value="@p" selected="@(priority == p)">@p</option>
+                }
+            </select>
+            <label for="priority">Priority</label>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-2">
+        <div class="form-floating">
+            <input type="datetime-local" class="form-control" id="from" name="DueFromUtc" value="@dueFrom" />
+            <label for="from">Due from (UTC)</label>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-2">
+        <div class="form-floating">
+            <input type="datetime-local" class="form-control" id="to" name="DueToUtc" value="@dueTo" />
+            <label for="to">Due to (UTC)</label>
+        </div>
+    </div>
+
+    <input type="hidden" name="Page" value="@pagee" />
+
+    <div class="col-12 d-flex gap-2 mt-1">
+        <button type="submit" class="btn btn-outline-primary">
+            Apply Filters
+        </button>
+        <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Tasks")">
+            Clear
+        </a>
+    </div>
+</form>
+
+@if (!items.Any())
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-body text-center text-muted py-5">
+            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+            <div class="fs-5 mb-3">No tasks found</div>
+            <div class="small mb-3">Try adjusting your filters or create a new task.</div>
+            <a class="btn btn-primary" href="@Url.Action("Create", "Tasks")">
+                <i class="bi bi-plus-lg"></i> Create Task
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr class="text-nowrap">
+                    <th>Title</th>
+                    <th class="text-center">Priority</th>
+                    <th>Due (UTC)</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-end" style="width: 10rem;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var t in items)
+                {
+                    <tr>
+                        <td>
+                            <a class="link-underline link-underline-opacity-0 fw-semibold" href="@Url.Action("Details", new { id = t.Id })">
+                                @t.Title
+                            </a>
+                            @if (!string.IsNullOrWhiteSpace(t.Description))
+                            {
+                                <div class="text-muted small text-truncate" style="max-width: 520px">@t.Description</div>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @switch (t.Priority)
+                            {
+                                case TaskPriority.High:
+                                    @:<span class="badge text-bg-danger">High</span>
+                                    break;
+                                case TaskPriority.Medium:
+                                    @:<span class="badge text-bg-warning">Medium</span>
+                                    break;
+                                default:
+                                    @:<span class="badge text-bg-secondary">Low</span>
+                                    break;
+                            }
+                        </td>
+                        <td class="text-nowrap">@((t.DueDate?.ToString("yyyy-MM-dd HH:mm") ?? "-"))</td>
+                        <td class="text-center">
+                            @if (t.IsCompleted)
+                            {
+                                <span class="badge text-bg-success"><i class="bi bi-check-circle"></i> Done</span>
+                            }
+                            else
+                            {
+                                <span class="badge text-bg-secondary"><i class="bi bi-clock"></i> Open</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group gap-2">
+                                <a class="btn btn-sm btn-outline-primary" href="@Url.Action("Edit", new { id = t.Id })">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <!-- Delete via shared modal (single instance) -->
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#confirmDeleteModal"
+                                        data-action="@Url.Action("Delete", "Tasks", new { id = t.Id })">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <nav aria-label="Tasks pagination" class="d-flex justify-content-between align-items-center mt-3">
+        <span class="text-muted">Page @pagee</span>
+        <ul class="pagination mb-0">
+            <li class="page-item @(pagee <= 1 ? "disabled" : "")">
+                <a class="page-link"
+                   href="@Url.Action("Index", new { Keyword = keyword, IsCompleted = done, Priority = priority, DueFromUtc = dueFrom, DueToUtc = dueTo, Page = Math.Max(1, pagee - 1) })"
+                   tabindex="@(pagee <= 1 ? "-1" : "0")" aria-disabled="@(pagee <= 1)">
+                    ‹ Prev
+                </a>
+            </li>
+            <li class="page-item @(!hasNext ? "disabled" : "")">
+                <a class="page-link"
+                   href="@Url.Action("Index", new { Keyword = keyword, IsCompleted = done, Priority = priority, DueFromUtc = dueFrom, DueToUtc = dueTo, Page = pagee + 1 })"
+                   tabindex="@(!hasNext ? "-1" : "0")" aria-disabled="@(!hasNext)">
+                    Next ›
+                </a>
+            </li>
+        </ul>
+    </nav>
+}
+
+@await Html.PartialAsync("_ConfirmDeleteModal")
