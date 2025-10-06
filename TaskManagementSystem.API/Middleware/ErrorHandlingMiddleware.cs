@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace TaskManagementSystem.Presentation.Middleware;
+namespace TaskManagementSystem.API.Middleware;
 
 public class ErrorHandlingMiddleware(
     RequestDelegate next,

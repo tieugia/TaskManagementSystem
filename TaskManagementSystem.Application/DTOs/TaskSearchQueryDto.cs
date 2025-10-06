@@ -9,6 +9,5 @@ public sealed record TaskSearchQueryDto(
     DateTime? DueFromUtc,
     DateTime? DueToUtc,
     int Page,
-    int PageSize,
-    byte[] RowVersion
+    int PageSize
 );

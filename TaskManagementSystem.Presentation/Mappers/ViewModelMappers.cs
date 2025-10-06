@@ -13,8 +13,7 @@ public static class ViewModelMappers
         vm.DueFromUtc,
         vm.DueToUtc,
         vm.Page,
-        vm.PageSize,
-        vm.RowVersion
+        vm.PageSize
     );
 
     public static TaskCreateDto ToDto(this TaskCreateViewModel vm)

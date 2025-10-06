@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementSystem.Applic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementSystem.Infrastructure.Tests", "TaskManagementSystem.Infrastructure.Tests\TaskManagementSystem.Infrastructure.Tests.csproj", "{64C5D608-D7A8-4DAB-BB26-1F1224036790}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementSystem.API", "TaskManagementSystem.API\TaskManagementSystem.API.csproj", "{635B7CAF-61D3-478A-9B1C-CE78DBEDFB31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementSystem.API.Tests", "TaskManagementSystem.API.Tests\TaskManagementSystem.API.Tests.csproj", "{F9659796-A302-4080-BADF-6C54214B23B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{64C5D608-D7A8-4DAB-BB26-1F1224036790}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64C5D608-D7A8-4DAB-BB26-1F1224036790}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64C5D608-D7A8-4DAB-BB26-1F1224036790}.Release|Any CPU.Build.0 = Release|Any CPU
+		{635B7CAF-61D3-478A-9B1C-CE78DBEDFB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{635B7CAF-61D3-478A-9B1C-CE78DBEDFB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{635B7CAF-61D3-478A-9B1C-CE78DBEDFB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{635B7CAF-61D3-478A-9B1C-CE78DBEDFB31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9659796-A302-4080-BADF-6C54214B23B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9659796-A302-4080-BADF-6C54214B23B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9659796-A302-4080-BADF-6C54214B23B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9659796-A302-4080-BADF-6C54214B23B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +79,8 @@ Global
 		{C767157F-D69C-4AAA-B4CE-53DAA47DDB5D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{7D3B8B7F-F518-4E7F-A371-A54CEFF08BB7} = {A7C982A3-057E-45CC-B82E-E3553C726574}
 		{64C5D608-D7A8-4DAB-BB26-1F1224036790} = {A7C982A3-057E-45CC-B82E-E3553C726574}
+		{635B7CAF-61D3-478A-9B1C-CE78DBEDFB31} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F9659796-A302-4080-BADF-6C54214B23B5} = {A7C982A3-057E-45CC-B82E-E3553C726574}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ABF24199-6BF9-45B9-A677-CDB8A0BFEDEC}

@@ -63,8 +63,7 @@ public sealed class TaskRepositoryTests
             DueFromUtc: null,
             DueToUtc: null,
             Page: 1,
-            PageSize: 10,
-            RowVersion: []
+            PageSize: 10
         );
 
         var result = await repo.SearchAsync(query);
@@ -88,8 +87,7 @@ public sealed class TaskRepositoryTests
             DueFromUtc: now.AddDays(1),
             DueToUtc: now.AddDays(10),
             Page: 1,
-            PageSize: 50,
-            RowVersion: []
+            PageSize: 50
         );
 
         var items = await repo.SearchAsync(query);
@@ -105,8 +103,8 @@ public sealed class TaskRepositoryTests
     {
         var repo = new TaskRepository(_db);
 
-        var page1 = await repo.SearchAsync(new TaskSearchQueryDto(null, null, null, null, null, 1, 10, []));
-        var page2 = await repo.SearchAsync(new TaskSearchQueryDto(null, null, null, null, null, 2, 10, []));
+        var page1 = await repo.SearchAsync(new TaskSearchQueryDto(null, null, null, null, null, 1, 10));
+        var page2 = await repo.SearchAsync(new TaskSearchQueryDto(null, null, null, null, null, 2, 10));
 
         Assert.AreEqual(10, page1.Count);
         Assert.IsTrue(page2.Count <= 10);
@@ -133,8 +131,7 @@ public sealed class TaskRepositoryTests
             DueFromUtc: null,
             DueToUtc: null,
             Page: 1,
-            PageSize: 10,
-            RowVersion: []
+            PageSize: 10
         ));
 
         Assert.AreEqual(0, items.Count);

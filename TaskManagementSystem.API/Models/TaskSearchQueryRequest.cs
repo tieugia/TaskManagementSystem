@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TaskManagementSystem.Domain.Enums;
 
-namespace TaskManagementSystem.Presentation.Models;
-public sealed class TaskSearchQueryViewModel
+namespace TaskManagementSystem.API.Models;
+public sealed class TaskSearchQueryRequest
 {
     [StringLength(200)] public string? Keyword { get; init; }
     public bool? IsCompleted { get; init; }
