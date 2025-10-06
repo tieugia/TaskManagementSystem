@@ -40,7 +40,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="Priority" class="form-label fw-semibold"></label>
-                                <select asp-for="Priority" asp-items="Html.GetEnumSelectList<TaskManagementSystem.Domain.Enums.TaskPriority>()"
+                                <select asp-for="Priority" asp-items="Html.GetEnumSelectList<TaskPriority>()"
                                         class="form-select"></select>
                                 <span asp-validation-for="Priority" class="text-danger small"></span>
                             </div>
