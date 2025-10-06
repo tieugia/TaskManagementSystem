@@ -6,6 +6,6 @@ public sealed class TaskCreateRequest
 {
     [StringLength(200)] public string Title { get; init; } = null!;
     [StringLength(2000)] public string? Description { get; init; }
-    [DataType(DataType.DateTime)] public DateTime? DueDate { get; init; }
+    public DateTime? DueDate { get; init; }
     [Required] public TaskPriority Priority { get; init; }
 }

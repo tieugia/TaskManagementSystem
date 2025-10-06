@@ -7,8 +7,8 @@ public sealed class TaskSearchQueryRequest
     [StringLength(200)] public string? Keyword { get; init; }
     public bool? IsCompleted { get; init; }
     public TaskPriority? Priority { get; init; }
-    [DataType(DataType.DateTime)] public DateTime? DueFromUtc { get; init; }
-    [DataType(DataType.DateTime)] public DateTime? DueToUtc { get; init; }
+    public DateTime? DueFromUtc { get; init; }
+    public DateTime? DueToUtc { get; init; }
 
     [Range(1, int.MaxValue, ErrorMessage = "Page must be >= 1")]
     public int Page { get; init; } = 1;

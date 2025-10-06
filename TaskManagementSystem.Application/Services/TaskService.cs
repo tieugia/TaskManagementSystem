@@ -1,8 +1,8 @@
 ﻿using TaskManagementSystem.Application.Constants;
 using TaskManagementSystem.Application.DTOs;
-using TaskManagementSystem.Application.Mappers;
 using TaskManagementSystem.Application.Interfaces.Repositories;
 using TaskManagementSystem.Application.Interfaces.Services;
+using TaskManagementSystem.Application.Mappers;
 using TaskManagementSystem.Domain.Entities;
 
 namespace TaskManagementSystem.Application.Services;
@@ -16,7 +16,7 @@ public sealed class TaskService(
         var task = new TaskItem
         {
             Title = dto.Title.Trim(),
-            Description = string.IsNullOrWhiteSpace(dto.Description) ? null : dto.Description,
+            Description = string.IsNullOrWhiteSpace(dto.Description) ? null : dto.Description.Trim(),
             DueDate = dto.DueDate,
             Priority = dto.Priority,
             IsCompleted = false,
@@ -40,7 +40,7 @@ public sealed class TaskService(
         task.Title = taskUpdateDto.Title.Trim();
         task.Description = string.IsNullOrWhiteSpace(taskUpdateDto.Description)
             ? null
-            : taskUpdateDto.Description;
+            : taskUpdateDto.Description.Trim();
         task.DueDate = taskUpdateDto.DueDate;
         task.Priority = taskUpdateDto.Priority;
         task.IsCompleted = taskUpdateDto.IsCompleted;
@@ -76,7 +76,7 @@ public sealed class TaskService(
             throw new KeyNotFoundException("Task not found");
 
         var dto = task.ToDto();
-        cacheService.Set(cacheKey, dto, TimeSpan.FromMinutes(5));
+        cacheService.Set(cacheKey, dto, TimeSpan.FromHours(1));
         return dto;
     }
 
@@ -87,9 +87,9 @@ public sealed class TaskService(
             return cachedList;
 
         var items = await taskRepository.SearchAsync(query);
-        var result = items.Select(i => i.ToDto()).ToList();
+        var result = items.Select(item => item.ToDto()).ToList();
 
-        cacheService.Set(cacheKey, result, TimeSpan.FromMinutes(3));
+        cacheService.Set(cacheKey, result, TimeSpan.FromHours(1));
         return result;
     }
 }

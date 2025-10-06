@@ -32,11 +32,11 @@ public sealed class TaskRepository(TaskManagementDbContext context)
         if (taskSearchQueryDto.DueToUtc.HasValue)
             taskQuery = taskQuery.Where(t => t.DueDate <= taskSearchQueryDto.DueToUtc);
 
-        var items = await taskQuery.OrderByDescending(t => t.UpdatedAtUtc)
+        var tasks = await taskQuery.OrderByDescending(t => t.UpdatedAtUtc)
                            .ThenByDescending(t => t.Priority)
                            .Skip((taskSearchQueryDto.Page - 1) * taskSearchQueryDto.PageSize)
                            .Take(taskSearchQueryDto.PageSize)
                            .ToListAsync();
-        return items;
+        return tasks;
     }
 }

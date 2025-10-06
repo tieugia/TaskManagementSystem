@@ -5,7 +5,7 @@ using TaskManagementSystem.Application.DTOs;
 using TaskManagementSystem.Application.Interfaces.Services;
 using TaskManagementSystem.Common.Attributes;
 
-namespace TaskManagementSystem.Presentation.Controllers.Api;
+namespace TaskManagementSystem.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
