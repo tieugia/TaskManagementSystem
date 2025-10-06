@@ -55,7 +55,7 @@ public sealed class GenericRepositoryTests
 
         var byId = await repo.GetByIdAsync(e.Id);
         Assert.IsNotNull(byId);
-        Assert.AreEqual(e.Id, byId!.Id);
+        Assert.AreEqual(e.Id, byId.Id);
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public sealed class GenericRepositoryTests
             Priority = TaskPriority.Medium,
             CreatedAtUtc = DateTime.UtcNow.AddDays(-1),
             UpdatedAtUtc = DateTime.UtcNow.AddDays(-1),
-            RowVersion = new byte[] { 1, 2, 3 }
+            RowVersion = [1, 2, 3]
         };
         _db.Tasks.Add(seeded);
         await _db.SaveChangesAsync();

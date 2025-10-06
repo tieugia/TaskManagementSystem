@@ -32,7 +32,7 @@ public sealed class TaskRepositoryTests
                 Title = $"Task {i} Report",
                 Description = (i % 2 == 0) ? "even sample" : "odd sample",
                 DueDate = now.AddDays(i),
-                IsCompleted = (i % 5 == 0), // mỗi 5 cái completed
+                IsCompleted = (i % 5 == 0),
                 Priority = (i % 3 == 0) ? TaskPriority.High
                          : (i % 3 == 1) ? TaskPriority.Medium
                          : TaskPriority.Low,
